@@ -11,13 +11,15 @@ clc;
 PDIST = squareform(pdist(Data,'euclidean'));
 SIGMA = 2; % Choose your desired sigma
 d = 2 % degree of polynomial kernel
+a = 1;
+b = 2;
 
 if(strcmpi(K_Func,'gaussian'))
   K = exp(-PDIST/(2*SIGMA^2));
-else if(strcmpi(K_Func,'poly'))
+elseif(strcmpi(K_Func,'poly'))
   K = (Data.*Data')^d;
-else if(strcmpi(K_Func,'invquad'))
-  K = inv(PDIST^2);
+elseif(strcmpi(K_Func,'invquad'))
+  K = inv((PDIST + a*eye(size(PDIST)))^b);
 end
 
 % Now matrix K can be used as a gram matrix for algorithms like FLD to find discriminants.
